@@ -1,7 +1,5 @@
 package get_instance_price
 
-var Version = "1.0"
-
 import (
 	"errors"
     "strings"
@@ -10,6 +8,8 @@ import (
 	"github.com/claredavies/get-instance-price/constants"
 	"github.com/claredavies/get-instance-price/pricing"
 )
+
+var Version = "1.0"
 
 var prices = []models.Price{
 }
