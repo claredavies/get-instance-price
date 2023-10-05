@@ -6,7 +6,7 @@ import (
 	"github.com/claredavies/get-instance-price/models"
 	"github.com/claredavies/get-instance-price/pkg/thirdparty/aws"
 	"github.com/claredavies/get-instance-price/constants"
-	"github.com/claredavies/get-instance-price/pricing"
+	"github.com/aws/aws-sdk-go/service/pricing"
 )
 
 var Version = "1.0"
