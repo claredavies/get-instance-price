@@ -77,6 +77,11 @@ func FetchPricingDataFilter(region string, serviceCode string, regionCode string
     return commonFetchPricingData(region, filter)
 }
 
+func FetchPricingDataStorage(region string, serviceCode string, regionCode string, usagetype string) ([]models.Price, error) {
+	filter := getInputFilterStorage(serviceCode, regionCode, usagetype)
+    return commonFetchPricingData(region, filter)
+}
+
 func extractPricingInformation(result *pricing.GetProductsOutput) []models.Price {
     var prices []models.Price
 
@@ -157,6 +162,30 @@ func saveResponseToJson(result *pricing.GetProductsOutput) error {
 func getInputNoFilter(serviceCode string) *pricing.GetProductsInput {
     input := &pricing.GetProductsInput{
         		ServiceCode: aws.String(serviceCode),
+    }
+    return input
+}
+
+func getInputFilterStorage(serviceCode string, regionCode string, usagetype string) *pricing.GetProductsInput {
+    input := &pricing.GetProductsInput{
+        		ServiceCode: aws.String(serviceCode),
+        		Filters: []*pricing.Filter{
+                            {
+                                Type:  aws.String("TERM_MATCH"),
+                                Field: aws.String("productFamily"),
+                                Value: aws.String("Storage"),
+                            },
+                            {
+                                Type:  aws.String("TERM_MATCH"),
+                                Field: aws.String("regionCode"),
+                                Value: aws.String(regionCode),
+                            },
+                            {
+                                Type:  aws.String("TERM_MATCH"),
+                                Field: aws.String("usagetype"),
+                                Value: aws.String(usagetype),
+                            },
+                            },
     }
     return input
 }

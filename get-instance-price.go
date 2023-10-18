@@ -106,7 +106,7 @@ func GetPrices() []models.Price {
 	return prices
 }
 
-func fetchJsonUnstructured(serviceCode string) (*pricing.GetProductsOutput, error)  {
+func FetchJsonUnstructured(serviceCode string) (*pricing.GetProductsOutput, error)  {
     if serviceCode == "" {
         return nil, constants.ErrQueryParameterMissing
     }
@@ -117,4 +117,9 @@ func fetchJsonUnstructured(serviceCode string) (*pricing.GetProductsOutput, erro
     }
 
     return jsonResult, err
+}
+
+func FetchPricingStorage(serviceCode string) {
+    aws.FetchPricingDataStorage(constants.Region, serviceCode, constants.RegionCode, constants.UsageTypeStorage)
+//     fmt.Println(onePrice)
 }

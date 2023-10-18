@@ -8,4 +8,5 @@ const (
     CapacityStatus = "used"
     OperatingSystem = "Linux"
     Tenancy = "Shared"
+    UsageTypeStorage = "EU-EBS:VolumeUsage.st1"
 )
