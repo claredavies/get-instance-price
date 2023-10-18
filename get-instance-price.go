@@ -23,11 +23,6 @@ func getPriceByID(id string) (models.Price, error) {
     return models.Price{}, errors.New(constants.ErrMsgPriceNotFound)
 }
 
-func LoadPrices(region string, service string) {
-    newPrices, _ := aws.FetchPricingData(region, service)
-    prices = append(prices, newPrices...)
-}
-
 func hasExistingInstanceTypeServiceType(serviceCode string,  instanceType string, prices []models.Price) bool {
     for _, price := range prices {
         if serviceCode == price.ServiceType &&
@@ -102,6 +97,26 @@ func GetPrice(serviceCode string, instanceType string) (models.Price, error) {
     }
 }
 
+func GetPriceStorage(serviceCode string, usageType string, regionCode string) (models.Price, error)  {
+    if serviceCode == "" {
+            return models.Price{}, constants.ErrQueryParameterMissing
+        }
+
+    onePrice, errRequestError := aws.FetchPricingDataStorage(constants.Region, serviceCode, regionCode, usageType)
+
+    if errRequestError != nil {
+            return models.Price{}, constants.ErrNoMatchingResults
+    }
+
+    if len(onePrice) == 0 {
+            return models.Price{}, constants.ErrNoMatchingResults
+        } else if len(onePrice) > 1 {
+            return models.Price{}, constants.ErrTooManyResultsReturned
+        }
+
+    return onePrice[0], errRequestError
+}
+
 func GetPrices() []models.Price {
 	return prices
 }
@@ -117,9 +132,4 @@ func FetchJsonUnstructured(serviceCode string) (*pricing.GetProductsOutput, erro
     }
 
     return jsonResult, err
-}
-
-func FetchPricingStorage(serviceCode string) {
-    aws.FetchPricingDataStorage(constants.Region, serviceCode, constants.RegionCode, constants.UsageTypeStorage)
-//     fmt.Println(onePrice)
 }

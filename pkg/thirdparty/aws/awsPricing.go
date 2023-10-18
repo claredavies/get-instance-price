@@ -67,11 +67,6 @@ func FetchPricingDataJsonFilter(region string, serviceCode string, regionCode st
 	return result, nil
 }
 
-func FetchPricingData(region string, serviceCode string) ([]models.Price, error) {
-	filter := getInputNoFilter(serviceCode)
-    return commonFetchPricingData(region, filter)
-}
-
 func FetchPricingDataFilter(region string, serviceCode string, regionCode string, instanceType string) ([]models.Price, error) {
 	filter := defineFilter(serviceCode, regionCode, instanceType)
     return commonFetchPricingData(region, filter)
